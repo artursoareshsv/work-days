@@ -1,4 +1,5 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { addWeeks, isThisMonth } from 'date-fns';
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 import endOfMonth from 'date-fns/endOfMonth';
 import isWeekend from 'date-fns/isWeekend';
@@ -8,6 +9,7 @@ import { useState } from 'react';
 import { AutoSubmit } from './components/AutoSubmit';
 import { FormikDatePicker } from './components/FormikDatePicker';
 import { FormikNumberField } from './components/FormikNumberField';
+import { get, save } from './services/officeDays';
 
 type FormData = {
 	from: Date;
@@ -32,6 +34,30 @@ function App() {
 
 		setWorkDays(weekDays.length - holidays);
 	};
+
+	const officeDays = async () => {
+		const officeDays: Date[] = [new Date('2023-04-12')];
+		let keepLooping = true;
+
+		while (keepLooping) {
+			const initialDay = officeDays[officeDays.length - 1];
+			const nextOfficeDay = addWeeks(initialDay, 2);
+
+			if (!isThisMonth(nextOfficeDay)) {
+				keepLooping = false;
+				break;
+			}
+
+			officeDays.push(nextOfficeDay);
+		}
+
+		console.log(await get());
+		await save(officeDays);
+
+		return officeDays;
+	};
+
+	officeDays();
 
 	return (
 		<Card variant='outlined'>
