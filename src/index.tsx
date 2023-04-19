@@ -4,12 +4,15 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Container } from '@mui/material';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<React.StrictMode>
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<App />
+			<Container maxWidth='md'>
+				<App />
+			</Container>
 		</LocalizationProvider>
 	</React.StrictMode>
 );
