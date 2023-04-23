@@ -10,14 +10,14 @@ import { AutoSubmit } from './components/AutoSubmit';
 import { FormikDatePicker } from './components/FormikDatePicker';
 import { FormikNumberField } from './components/FormikNumberField';
 import { getOfficeDays } from './services/officeDays';
+import { DATE_FORMAT } from './constants/date-format';
+import { Overview } from './components/Overview';
 
 type FormData = {
 	from: Date;
 	to: Date;
 	holidays: number;
 };
-
-const DATE_FORMAT = 'dd/MM/yyyy';
 
 export default function App() {
 	const initialValues: FormData = {
@@ -69,19 +69,7 @@ export default function App() {
 						</Grid>
 					</Formik>
 
-					<Stack gap={0.5}>
-						<Typography variant='subtitle1'>
-							<strong>Business days:</strong>
-						</Typography>
-						<Typography>- {workDays}</Typography>
-
-						<Typography variant='subtitle1'>
-							<strong>Office days:</strong>
-						</Typography>
-						{officeDays?.map((officeDay) => (
-							<Typography key={officeDay.toISOString()}>- {format(officeDay, DATE_FORMAT)}</Typography>
-						))}
-					</Stack>
+					<Overview workDays={workDays} officeDays={officeDays} />
 				</Stack>
 			</CardContent>
 		</Card>
